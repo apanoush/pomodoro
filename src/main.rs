@@ -7,8 +7,10 @@ use std::env;
 
 fn main() {
 
+    // collecting user argument if any
     let args: Vec<String> = env::args().collect();
-
+    
+    // error handling (parsing the argument)
     let waiting_time: i64 = ( if args.len() > 1 { 
         match args[1].parse::<i64>() {
             Ok(x) => if x > 0 {Ok(x)} else {panic!("Usage: {} ARG, ARG must be a positive integer", args[0])},
