@@ -4,6 +4,7 @@ use std::time::Duration;
 use std::io::Write;
 use chrono::{self, Timelike};
 use std::env;
+use colored::Colorize;
 
 fn main() {
 
@@ -33,7 +34,9 @@ fn main() {
 
     while min < waiting_time {
 
-        print!("\r{:02}:{:02}", min, sec);
+        // printing the time and formatting it
+        let print: String = format!("\r{:02}:{:02}", min, sec);
+        print!("{}", print.bold());
         std::io::stdout().flush().expect("flush error");
         sleep(second);
 
