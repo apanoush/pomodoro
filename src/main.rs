@@ -36,7 +36,7 @@ fn main() {
 
         // printing the time and formatting it
         let print: String = format!("\r{:02}:{:02}", min, sec);
-        print!("{}", print.bold());
+        print!("{}", &print.bold());
         std::io::stdout().flush().expect("flush error");
         sleep(second);
 
