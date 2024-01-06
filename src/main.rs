@@ -1,4 +1,4 @@
-use std::ops::Add;
+use std::{ops::Add, i64};
 use std::thread::sleep;
 use std::time::Duration;
 use std::io::Write;
@@ -6,19 +6,30 @@ use chrono::{self, Timelike};
 use std::env;
 use colored::Colorize;
 
-fn main() {
-
+fn main() 
+{
     // collecting user argument if any
-    let args: Vec<String> = env::args().collect();
-    
-    // error handling (parsing the argument)
-    let waiting_time: i64 = ( if args.len() > 1 { 
-        match args[1].parse::<i64>() {
-            Ok(x) => if x > 0 {Ok(x)} else {panic!("Usage: {} ARG, ARG must be a positive integer", args[0])},
-            Err(e) => Err(e)
-        }
-    } else {Ok(20)} ).expect("error in the argument, must be a positive integer");
-  
+    let mut args: Vec<String> = env::args().collect();
+    let program_name = args[0].clone();
+    args.remove(0);
+
+    if args.len() == 0 {pomodoro(25)}
+    else {
+        let args_iter = args.into_iter().map(|input| {
+            // error handling (parsing the argument)
+            let waiting_time: i64 = match input.parse::<i64>() {
+
+                Ok(x) => if x > 0 {Ok(x)} else {panic!("Usage: {} ARG, ARG must be a positive integer", program_name)},
+                Err(e) => Err(e)  
+            }.expect("Input couldn't be parsed as an integer");
+            waiting_time
+        });
+        for time in args_iter {pomodoro(time);}        
+    }
+}
+      
+fn pomodoro(waiting_time: i64)
+{
     // counters for seconds and minutes
     let mut min: i64 = 0;
     let mut sec: i64 = 0;
